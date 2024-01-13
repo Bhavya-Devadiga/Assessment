@@ -1,0 +1,172 @@
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+<form [formGroup]="userdetail" (ngSubmit)="addData(flag)">
+   <div class="row">
+      <div class="col-lg-12">
+         <div class="panel panel-primary">
+            <div class="panel-heading">User Dependent Dashboard
+            </div>
+            <div class="panel-body">
+               <div class="row">
+                  <div class="col-lg-3">
+                     <div class="form-group">
+                        <label for="firstName">First Name : </label>
+                        <input type="text" class="form-control" formControlName='firstName' placeholder="firstName"
+                           pattern="[A-Za-z]+">
+                        <p
+                           *ngIf="userdetail.get('firstName')?.errors && (userdetail.get('firstName')?.touched || userdetail.get('firstName')?.dirty)">
+                           <span class="text-danger"> First Name is required and must be characters </span>
+                        </p>
+                     </div>
+                  </div>
+                  <div class="col-lg-3">
+                     <div class="form-group">
+                        <label for="lastName">Last Name : </label>
+                        <input type="text" class="form-control" formControlName='lastName' placeholder="lastName"
+                           pattern="[A-Za-z]+">
+                        <p
+                           *ngIf="userdetail.get('lastName')?.errors && (userdetail.get('lastName')?.touched || userdetail.get('lastName')?.dirty)">
+                           <span class="text-danger"> First Name is required and must be characters </span>
+                        </p>
+                     </div>
+                  </div>
+                  <div class="col-lg-3">
+                     <div class="form-group">
+                        <label>Email : </label>
+                        <input type="text" class="form-control" formControlName='email' class="form-control"
+                           pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+                        <p
+                           *ngIf="userdetail.get('email')?.errors && (userdetail.get('email')?.touched || userdetail.get('email')?.dirty)">
+                           <span class="text-danger"> Email is required and must be in email format</span>
+                     </div>
+                  </div>
+                  <div class="col-lg-3">
+                     <div class="form-group">
+                        <label for="dob">DOB : </label>
+                        <input type="date" class="form-control" formControlName='dob' placeholder="dob">
+                        <p
+                           *ngIf="userdetail.get('dob')?.errors && (userdetail.get('dob')?.touched || userdetail.get('dob')?.dirty)">
+                           <span class="text-danger">DOB is required</span>
+                        </p>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-3 ">
+                     <div class="form-group"><br /><br />
+                        <div class="radio-inline">
+                           <label>
+                              <input type="radio" formControlName="gender" id="gender" name="gender" value="male">Male
+                           </label>
+                        </div>
+                        <div class="radio-inline">
+                           <label>
+                              <input type="radio" formControlName="gender" id="gender" name="gender" value="female">
+                              Female
+                           </label>
+                        </div>
+                        <p
+                           *ngIf="userdetail.get('gender')?.errors && (userdetail.get('gender')?.touched || userdetail.get('gender')?.dirty)">
+                           <span class="text-danger"> Gender is required</span>
+                        </p>
+                     </div>
+                  </div>
+                  <div class="col-lg-3">
+                     <div class="form-group">
+                        <label for="country">Choose a Country : </label>
+                        <select formControlName="country" class="rounded-inputs20 select-select form-control"
+                           (change)="onChange()">
+                           <option value="default" selected> Select Country </option>
+                           <option *ngFor="let c of country" [value]="c.id">{{c.name}}</option>
+                        </select>
+                        <p
+                           *ngIf="userdetail.get('country')?.errors && (userdetail.get('country')?.touched || userdetail.get('country')?.dirty)">
+                           <span class="text-danger"> Country is required</span>
+                        </p>
+                     </div>
+                  </div>
+                  <div class="col-lg-3">
+                     <div class="form-group">
+                        <label for="state">State : </label>
+                        <select name="state" id="state" formControlName="state"
+                           class="rounded-inputs20 select-select form-control">
+                           <option value="default" selected> Select State </option>
+                           <option *ngFor="let s of state" [value]="s.id">{{s.name}}</option>
+                        </select>
+                        <p
+                           *ngIf="userdetail.get('state')?.errors && (userdetail.get('state')?.touched || userdetail.get('state')?.dirty)">
+                           <span class="text-danger"> State is required</span>
+                        </p>
+                     </div>
+                  </div>
+                  <div class="col-lg-3">
+                     <div class="form-group">
+                        <label for="pincode">Pincode : </label>
+                        <input type="text" class="form-control" formControlName='pincode' placeholder="pincode"
+                           pattern="[1-9][0-9]{5}">
+                        <p
+                           *ngIf="userdetail.get('pincode')?.errors && (userdetail.get('pincode')?.touched || userdetail.get('pincode')?.dirty)">
+                           <span class="text-danger"> Pincode is required and must be 6 Digits</span>
+                        </p>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-12">
+                  <div class="form-group">
+                     <br>
+                     <button class="btn btn-success pull-right">Submit</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</form>
+<br>
+<div class="row">
+   <div class="col-lg-12">
+      <div class="panel panel-primary">
+         <div class="panel-heading">User Details
+         </div>
+         <div class="panel-body">
+            <input [(ngModel)]="searchTerm" placeholder="Search By firstName,lastName"
+               style="width: 210px; height: 26px;">
+            <button (click)="search()">Search</button>
+            <table class="table table-striped table-bordered table-hover" width="100%">
+               <thead class="dark">
+                  <tr>
+                     <th>Edit</th>
+                     <th>Delete</th>
+                     <th> First Name</th>
+                     <th> Last Name</th>
+                     <th> Email</th>
+                     <th>Gender</th>
+                     <th>Date Of Birth</th>
+                     <th>Country</th>
+                     <th>State</th>
+                     <th>Pincode</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr *ngFor='let u of (dataList)'>
+                     <td>
+                        <button class="btn btn-primary" (click)="patchData(u.id)">Edit</button>
+                     </td>
+                     <td>
+                        <button class="btn btn-danger" (click)="deleteuser(u.id)">Delete</button>
+                     </td>
+                     <td>{{u.firstName}}</td>
+                     <td>{{u.lastName}}</td>
+                     <td>{{u.email}}</td>
+                     <td>{{u.gender}}</td>
+                     <td>{{u.dob}}</td>
+                     <td>{{this.countryobj[u.country]}} </td>
+                     <td>{{this.stateobj[u.state]}}</td>
+                     <td>{{u.pincode}}</td>
+                  </tr>
+               </tbody>
+               <br />
+            </table>
+         </div>
+      </div>
+   </div>
